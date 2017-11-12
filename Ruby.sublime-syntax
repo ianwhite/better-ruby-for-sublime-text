@@ -664,6 +664,21 @@ contexts:
         - include: scope:text.html.basic
         - include: interpolated_ruby
         - include: escaped_char
+    - match: '(?><<[-~]("?)((?:[_\w]+_|)SLIM)\b\1)'
+      comment: heredoc with embedded SLIM and indented terminator
+      captures:
+        0: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: string.unquoted.embedded.slim.ruby
+        - meta_content_scope: text.slim.embedded.ruby
+        - match: \s*\2$
+          captures:
+            0: punctuation.definition.string.end.ruby
+          pop: true
+        - include: heredoc
+        - include: scope:text.slim.basic
+        - include: interpolated_ruby
+        - include: escaped_char
     - match: '(?><<[-~]("?)((?:[_\w]+_|)SQL)\b\1)'
       comment: heredoc with embedded SQL and indented terminator
       captures:
